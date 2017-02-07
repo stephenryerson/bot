@@ -19,13 +19,19 @@ def handle_command(command, channel):
         are valid commands. If so, then acts on the commands. If not,
         returns back what it needs for clarification.
     """
-    response = "Not sure what you mean. Use the *" + EXAMPLE_COMMAND + \
-               "* command with numbers, delimited by spaces."
-    if command.startswith(EXAMPLE_COMMAND):
-        response = "Sure...write some more code then I can do that!"
-    slack_client.api_call("chat.postMessage", channel=channel,
-                          text=response, as_user=True)
 
+    if command.startswith("hello"):
+        response = "Hello."
+        slack_client.api_call("chat.postMessage", channel=channel, text=response, as_user=True)
+    elif command.startswith("testing"):
+        response = "1 2 3"
+        slack_client.api_call("chat.postMessage", channel=channel, text=response, as_user=True)
+    elif command.startswith("help"):
+        response = "The list of commands when directed at the bot, delmited by spaces:\nhello\ntesting\nhelp"
+        slack_client.api_call("chat.postMessage", channel=channel, text=response, as_user=True)
+    else:
+        response = "Not sure what you mean. Use the *help* command, delimited by spaces."
+        slack_client.api_call("chat.postMessage", channel=channel, text=response, as_user=True)
 
 def parse_slack_output(slack_rtm_output):
     """
